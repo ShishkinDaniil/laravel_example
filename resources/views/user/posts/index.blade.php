@@ -1,0 +1,46 @@
+@extends('layouts.main')
+
+@section('main.content')
+    <x-title>
+        {{ __('Мои посты') }}
+        <x-slot name="right">
+            <x-button additionalStyle="btn-sm" onclick="location.href='{{ route('user.posts.create') }}'">
+                {{ __('Создать') }}
+            </x-button>
+        </x-slot>
+    </x-title>
+    @if (empty($posts))
+        {{ __(' Нет ни одного поста') }}
+    @else
+        <div class="scrolling-pagination">
+            <div class="row">
+                @foreach ($posts as $post)
+                    <div class="col-12 col-md-4">
+                        <x-post.card :post="$post" route="user.posts.show" />
+                    </div>
+                @endforeach
+            </div>
+            {{ $posts->links() }}
+        </div>
+        @once
+            @push('scripts')
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/jscroll/2.4.1/jquery.jscroll.min.js"></script>
+                <script type="text/javascript">
+                    $('ul.pagination').hide();
+                    $(function() {
+                        $('.scrolling-pagination').jscroll({
+                            autoTrigger: true,
+                            padding: 0,
+                            nextSelector: '.pagination li.active + li a',
+                            contentSelector: 'div.scrolling-pagination',
+                            callback: function() {
+                                $('ul.pagination').remove();
+                            }
+                        });
+                    });
+                </script>
+            @endpush
+        @endonce
+    @endif
+@endsection

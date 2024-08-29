@@ -1,0 +1,21 @@
+.container{
+    max-width: 75%;
+}
+
+.required::after{
+    content: '*';
+    color: red;
+    margin-left: 3px;
+}
+
+
+.auto {
+    height: auto;
+}
+
+.alert-container{
+    position:sticky;
+    bottom:10px;
+    right:20px;
+}
+
